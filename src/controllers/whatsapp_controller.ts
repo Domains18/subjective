@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
 import { whatsappToken, phoneNumberID, metaVersion } from 'constants/variables';
-
-
-export async function sendMessage(req: Request, res:Response){}
+import axios from 'axios'
+import * as fs from 'fs';
+import
