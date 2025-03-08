@@ -1,6 +1,10 @@
-package model;
+package model
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
@@ -11,6 +15,9 @@ type User struct {
 
 	Goals []Goals `gorm:"foreignKey:UserId"`
 	Tasks []Task `gorm:"foreignKey:UserId"`
+
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type Task struct {
@@ -22,6 +29,9 @@ type Task struct {
 
 	UserId uint `json:"user_id"`
 	GoalId int `json:"goal_id"`
+
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type Goals struct {
@@ -31,4 +41,8 @@ type Goals struct {
 	Status string `json:"status"`
 
 	Tasks []Task `gorm:"foreignKey:GoalId"`
+	UserId uint `json:"user_id"`
+
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
