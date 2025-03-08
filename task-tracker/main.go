@@ -1,12 +1,13 @@
-package main;
+package main
 
-import(
-	"github.com/gin-gonic/gin"
+import (
 	"log"
+
+	"github.com/Domains18/subjective.git/config"
+	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
-
 
 // @title Task Tracker Microservice
 // @version 1.0
@@ -25,6 +26,8 @@ func main(){
 
 
 	router:= gin.Default();
+
+	config.Connect_DB();
 
 	router.GET("/", func(c *gin.Context){
 		c.JSON(200, gin.H{
