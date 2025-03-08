@@ -35,7 +35,8 @@ func main(){
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 
-	if err := router.Run(":8080"); err != nil{
+	if err := router.Run(":8044"); err != nil{
 		log.Fatal("Unable to start the server: %v", err);
 	}
+	log.Printf("server succesfully started on port 8080")
 }
