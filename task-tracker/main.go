@@ -36,7 +36,7 @@ func main(){
 
 
 	if err := router.Run(":8044"); err != nil{
-		log.Fatal("Unable to start the server: %v", err);
+		log.Printf("Unable to start the server: %v", err);
 	}
 	log.Printf("server succesfully started on port 8080")
 }
