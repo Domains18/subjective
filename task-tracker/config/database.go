@@ -7,12 +7,15 @@ import (
 )
 
 
+var DB *gorm.DB
+
 func Connect_DB() {
-	db, err := gorm.Open(sqlite.Open("task_test.db"), &gorm.Config{})
+	var err error
+	DB, err := gorm.Open(sqlite.Open("task_test.db"), &gorm.Config{})
 
 	if err != nil {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&model.Task{}, &model.Goals{}, &model.User{})
+	DB.AutoMigrate(&model.Task{}, &model.Goals{}, &model.User{})
 }

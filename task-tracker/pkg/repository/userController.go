@@ -1,31 +1,64 @@
 package repository
 
 import (
-	"net/http"
-
+	"github.com/Domains18/subjective.git/config"
 	"github.com/Domains18/subjective.git/internal/model"
 	"gorm.io/gorm"
-	
 )
 
-var db *gorm.DB
 
-func CreateAccount(body model.User) (*model.User, error){
-	err, exists := check_if_email_exists(body.Email)
+type create_account_response struct {
+	User *model.User `json:"user"`
+	Error error `json:"error"`
+	Message string `json:"message"`
+}
+
+
+func CreateAccount(body model.User) create_account_response{
+	exists, err := check_if_email_exists(body.Email)
 
 	if err != nil{
-		
+		return create_account_response{
+			User: nil,
+			Error: err,
+			Message: "failed to query user",
+		}
+	}
+
+	if exists {
+		return create_account_response{
+			User: nil,
+			Error: nil,
+			Message: "user with the email already exists",
+		}
+	}
+
+	if err := config.DB.Create(&body).Error; err != nil {
+		return create_account_response{
+			User: nil,
+			Error: err,
+			Message: "failed to create user",
+		}
+	} 
+
+	return create_account_response{
+		User: &body,
+		Error: nil,
+		Message: "user created succesfully",
 	}
 }
 
 
 
-func check_if_email_exists(email string) (error, bool){
-	exists := db.Where("email = ?", email).First(&email)
+func check_if_email_exists(email string) (bool, error){
+	result := config.DB.Where("email = ?", email).First(&email)
 
-	if exists.Error != nil{
-		return nil, false
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound{
+			return false, nil
+		}
+		return false, result.Error
 	}
-	println(exists)
-	return nil, true
+
+	return true, nil
 }
