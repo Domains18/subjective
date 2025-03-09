@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/Domains18/subjective.git/api/handlers"
 	"github.com/Domains18/subjective.git/config"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -36,6 +37,9 @@ func main(){
 	});
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+
+	router.POST("/register", handlers.CreateAccountHandler)
 
 
 	if err := router.Run(":8044"); err != nil{
