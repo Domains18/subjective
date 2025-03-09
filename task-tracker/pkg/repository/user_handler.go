@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/Domains18/subjective.git/config"
 	"github.com/Domains18/subjective.git/internal/model"
+	"github.com/Domains18/subjective.git/pkg/utils"
 	"gorm.io/gorm"
 )
 
@@ -33,7 +34,24 @@ func CreateAccount(body model.User) create_account_response{
 		}
 	}
 
-	if err := config.DB.Create(&body).Error; err != nil {
+	hashed_password, err := utils.Hash_password(body.Password)
+
+	if err != nil {
+		return create_account_response{
+			User: nil,
+			Error: err,
+			Message: "failed to hash password",
+		}
+	}
+
+	user := model.User{
+		Name: body.Name,
+		Email: body.Email,
+		Password: hashed_password,
+	}
+	
+
+	if err := config.DB.Create(&user).Error; err != nil {
 		return create_account_response{
 			User: nil,
 			Error: err,
