@@ -16,9 +16,9 @@ func CreateAccountHandler(c *gin.Context) {
 		return
 	}
 
-	response := repository.CreateAccount(user)
+	response, err := repository.CreateAccount(user)
 
-	if response.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": response.Message})
 		return
 	}

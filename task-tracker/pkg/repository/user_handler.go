@@ -12,10 +12,11 @@ type create_account_response struct {
 	User *model.User `json:"user"`
 	Error error `json:"error"`
 	Message string `json:"message"`
+	Token string `json:"token"`
 }
 
 
-func CreateAccount(body model.User) create_account_response{
+func CreateAccount(body model.User) (create_account_response, error){
 	exists, err := check_if_email_exists(body.Email)
 
 	if err != nil{
@@ -23,7 +24,7 @@ func CreateAccount(body model.User) create_account_response{
 			User: nil,
 			Error: err,
 			Message: "failed to query user",
-		}
+		}, err
 	}
 
 	if exists {
@@ -31,7 +32,7 @@ func CreateAccount(body model.User) create_account_response{
 			User: nil,
 			Error: nil,
 			Message: "user with the email already exists",
-		}
+		}, err
 	}
 
 	hashed_password, err := utils.Hash_password(body.Password)
@@ -41,7 +42,7 @@ func CreateAccount(body model.User) create_account_response{
 			User: nil,
 			Error: err,
 			Message: "failed to hash password",
-		}
+		}, err
 	}
 
 	user := model.User{
@@ -56,14 +57,20 @@ func CreateAccount(body model.User) create_account_response{
 			User: nil,
 			Error: err,
 			Message: "failed to create user",
-		}
-	} 
+		}, err
+	}
+	
+	token, err := utils.Generate_JWT(user.ID, user.Email)
+	if err != nil {
+		return create_account_response{}, err
+	}
 
 	return create_account_response{
 		User: &body,
 		Error: nil,
 		Message: "user created succesfully",
-	}
+		Token: token,
+	}, nil
 }
 
 
