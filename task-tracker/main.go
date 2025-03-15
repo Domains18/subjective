@@ -22,29 +22,26 @@ import (
 // @contact.name API Support
 // @contact.url URL_ADDRESS.swagger.io/support
 
+func main() {
 
-func main(){
+	router := gin.Default()
 
+	config.Connect_DB()
 
-	router:= gin.Default();
-
-	config.Connect_DB();
-
-	router.GET("/", func(c *gin.Context){
+	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Hello World",
 		})
-	});
+	})
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-
 	router.POST("/register", handlers.CreateAccountHandler)
-	
 
+	router.POST("/login", handlers.LoginHandler)
 
-	if err := router.Run(":8044"); err != nil{
-		log.Printf("Unable to start the server: %v", err);
+	if err := router.Run(":8044"); err != nil {
+		log.Printf("Unable to start the server: %v", err)
 	}
 	log.Printf("server succesfully started on port 8080")
 }
