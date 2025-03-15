@@ -22,6 +22,7 @@ import (
 // @contact.name API Support
 // @contact.url URL_ADDRESS.swagger.io/support
 
+
 func main() {
 
 	router := gin.Default()

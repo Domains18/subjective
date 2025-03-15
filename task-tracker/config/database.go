@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/Domains18/subjective.git/internal/model"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -14,6 +16,7 @@ func Connect_DB() {
 	DB, err := gorm.Open(sqlite.Open("task_test.db"), &gorm.Config{})
 
 	if err != nil {
+		fmt.Println(err)
 		panic("failed to connect database")
 	}
 
