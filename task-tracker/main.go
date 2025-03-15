@@ -40,6 +40,7 @@ func main(){
 
 
 	router.POST("/register", handlers.CreateAccountHandler)
+	
 
 
 	if err := router.Run(":8044"); err != nil{
