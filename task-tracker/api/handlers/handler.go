@@ -56,11 +56,12 @@ func LoginHandler(c *gin.Context){
 }
 
 
-func GetUsers(c *gin.Context){
-	response, err := repository.GetUsers()
-	if err != nil{
+func GetAllUsers(c *gin.Context) { 
+	users, err := repository.GetUsers()
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"user": response})
+	c.JSON(http.StatusOK, gin.H{"users": users})
 }

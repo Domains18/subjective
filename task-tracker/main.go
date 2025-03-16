@@ -41,7 +41,7 @@ func main() {
 
 	router.POST("/login", handlers.LoginHandler)
 
-	router.GET("/users", handlers.GetUsers)
+	router.GET("/users", handlers.GetAllUsers)
 
 	if err := router.Run(":8044"); err != nil {
 		log.Printf("Unable to start the server: %v", err)
