@@ -16,6 +16,9 @@ type create_account_response struct {
 }
 
 
+
+
+
 func CreateAccount(body model.User) (create_account_response, error){
 	exists, err := check_if_email_exists(body.Email)
 
@@ -86,4 +89,16 @@ func check_if_email_exists(email string) (bool, error){
 	}
 
 	return true, nil
+}
+
+
+func GetUsers() ([]model.User, error) {
+	var users []model.User
+	result := config.DB.Find(&users)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return users, nil
 }

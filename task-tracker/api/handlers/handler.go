@@ -53,5 +53,14 @@ func LoginHandler(c *gin.Context){
 	}
 
 	c.JSON(http.StatusOK, gin.H{"token": response.Token, "user": response.User})
+}
 
+
+func GetUsers(c *gin.Context){
+	response, err := repository.GetUsers()
+	if err != nil{
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	c.JSON(http.StatusOK, gin.H{"user": response})
 }
