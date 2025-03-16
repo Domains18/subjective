@@ -1,5 +1,6 @@
 package config
 
+
 import (
 	"fmt"
 
@@ -21,4 +22,4 @@ func Connect_DB() {
 	}
 
 	DB.AutoMigrate(&model.Task{}, &model.Goals{}, &model.User{})
-}
+} 
