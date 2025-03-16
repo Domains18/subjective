@@ -16,9 +16,6 @@ type create_account_response struct {
 }
 
 
-
-
-
 func CreateAccount(body model.User) (create_account_response, error){
 	exists, err := check_if_email_exists(body.Email)
 
